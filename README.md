@@ -1,4 +1,4 @@
-### Tuts+ Tutorial: An Introduction to Appium
+### Tuts+ Tutorial: Using Bluetooth With an Android App 
 
 #### Instructor: Matthew Kim
 
