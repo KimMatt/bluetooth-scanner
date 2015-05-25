@@ -1,6 +1,7 @@
 package com.tutsplus.matt.bluetoothscanner;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
     private ArrayList <DeviceItem>deviceItemList;
 
     private OnFragmentInteractionListener mListener;
+    private static BluetoothAdapter bTAdapter;
 
     /**
      * The fragment's ListView/GridView.
@@ -43,8 +45,9 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static DeviceListFragment newInstance() {
+    public static DeviceListFragment newInstance(BluetoothAdapter adapter) {
         DeviceListFragment fragment = new DeviceListFragment();
+        bTAdapter = adapter;
         return fragment;
     }
 
@@ -72,7 +75,7 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
 
         Log.d("DEVICELIST", "DeviceList populated\n");
 
-        mAdapter = new DeviceListAdapter(getActivity(), deviceItemList);
+        mAdapter = new DeviceListAdapter(getActivity(), deviceItemList, bTAdapter);
 
         Log.d("DEVICELIST", "Adapter created\n");
     }

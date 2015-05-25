@@ -1,6 +1,7 @@
 package com.tutsplus.matt.bluetoothscanner;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +22,11 @@ import java.util.List;
 public class DeviceListAdapter extends ArrayAdapter{
 
     private Context context;
+    private BluetoothAdapter bTAdapter;
 
-    public DeviceListAdapter(Context context, List items) {
+    public DeviceListAdapter(Context context, List items, BluetoothAdapter bTAdapter) {
         super(context, android.R.layout.simple_list_item_1, items);
+        this.bTAdapter = bTAdapter;
         this.context = context;
     }
 

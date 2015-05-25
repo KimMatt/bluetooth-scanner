@@ -1,5 +1,7 @@
 package com.tutsplus.matt.bluetoothscanner;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,15 +13,30 @@ public class ListActivity extends ActionBarActivity implements DeviceListFragmen
 
 
     private DeviceListFragment mDeviceListFragment;
+    private BluetoothAdapter BTAdapter;
+
+
+    public static int REQUEST_BLUETOOTH = 1;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        BTAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (!BTAdapter.isEnabled()) {
+            Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBT, REQUEST_BLUETOOTH);
+
+        }
+
+        //
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        mDeviceListFragment = DeviceListFragment.newInstance();
+        mDeviceListFragment = DeviceListFragment.newInstance(BTAdapter);
         fragmentManager.beginTransaction().replace(R.id.container, mDeviceListFragment).commit();
 
     }
