@@ -24,7 +24,15 @@ public class ListActivity extends ActionBarActivity implements DeviceListFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        //TODO Check if bluetooth is enabled
+        BTAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (!BTAdapter.isEnabled()) {
+            Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBT, REQUEST_BLUETOOTH);
+
+        }
+
+        //
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
