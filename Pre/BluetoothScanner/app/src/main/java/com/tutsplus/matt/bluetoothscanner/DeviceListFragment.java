@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private ArrayAdapter<DeviceItem> mAdapter;
 
     // TODO: Rename and change types of parameters
     public static DeviceListFragment newInstance(BluetoothAdapter adapter) {
@@ -70,7 +71,7 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
 
         // If there are no devices, add an item that states so. It will be handled in the view.
         if(deviceItemList.size() == 0) {
-            deviceItemList.add(new DeviceItem("No Devices", "false"));
+            deviceItemList.add(new DeviceItem("No Devices", "", "false"));
         }
 
         Log.d("DEVICELIST", "DeviceList populated\n");

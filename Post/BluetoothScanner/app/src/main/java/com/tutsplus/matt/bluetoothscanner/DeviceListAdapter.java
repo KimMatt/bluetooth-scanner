@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by Matt on 5/12/2015.
  */
-public class DeviceListAdapter extends ArrayAdapter{
+public class DeviceListAdapter extends ArrayAdapter<DeviceItem>{
 
     private Context context;
     private BluetoothAdapter bTAdapter;
@@ -50,8 +51,6 @@ public class DeviceListAdapter extends ArrayAdapter{
         final String name = item.getDeviceName();
         ToggleButton connectDisconnect = null;
         View viewToUse = null;
-        ImageButton remove = null;
-
 
         // This block exists to inflate the settings list item conditionally based on whether
         // we want to support a grid or list view.
@@ -65,13 +64,12 @@ public class DeviceListAdapter extends ArrayAdapter{
 
         connectDisconnect = (ToggleButton)viewToUse.findViewById(R.id.connectDisconnect);
         line = (View)viewToUse.findViewById(R.id.line);
-        remove = (ImageButton)viewToUse.findViewById(R.id.remove);
         holder.titleText.setText(item.getDeviceName());
+
 
         if ( item.getDeviceName().toString() == "No Devices") {
             connectDisconnect.setVisibility(View.INVISIBLE);
             line.setVisibility(View.INVISIBLE);
-            remove.setVisibility(View.INVISIBLE);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                     ((int) RelativeLayout.LayoutParams.WRAP_CONTENT, (int) RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -93,14 +91,6 @@ public class DeviceListAdapter extends ArrayAdapter{
                 }
             });
 
-            remove.setOnClickListener(new ImageButton.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-                                              //TODO remove
-                                              v.invalidate();
-                                          }
-                                      }
-            );
         }
 
         return viewToUse;
