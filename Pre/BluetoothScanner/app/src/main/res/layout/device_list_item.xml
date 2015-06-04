@@ -28,11 +28,11 @@
         android:background="#fff"
         android:layout_below="@+id/titleTextView"
         />
-    <ToggleButton
+    <TextView
         android:layout_width="200dp"
         android:layout_height="30dp"
-        android:text="New ToggleButton"
-        android:id="@+id/connectDisconnect"
+        android:text="MAC Address"
+        android:id="@+id/macAddress"
         android:layout_below="@+id/titleTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -40,6 +40,7 @@
         android:layout_alignRight="@+id/titleTextView"
         android:layout_alignEnd="@+id/titleTextView"
         android:textOff="@string/button_disconnect"
-        android:textOn="@string/button_connect"/>
+        android:textOn="@string/button_connect"
+        android:textColor="#fff" />
 
 </RelativeLayout>

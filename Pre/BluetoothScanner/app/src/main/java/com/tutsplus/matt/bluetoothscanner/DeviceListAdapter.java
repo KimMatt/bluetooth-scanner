@@ -49,7 +49,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceItem>{
         View line = null;
         DeviceItem item = (DeviceItem)getItem(position);
         final String name = item.getDeviceName();
-        ToggleButton connectDisconnect = null;
+        TextView macAddress = null;
         View viewToUse = null;
 
         // This block exists to inflate the settings list item conditionally based on whether
@@ -62,34 +62,19 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceItem>{
         holder.titleText = (TextView)viewToUse.findViewById(R.id.titleTextView);
         viewToUse.setTag(holder);
 
-        connectDisconnect = (ToggleButton)viewToUse.findViewById(R.id.connectDisconnect);
+        macAddress = (TextView)viewToUse.findViewById(R.id.macAddress);
         line = (View)viewToUse.findViewById(R.id.line);
         holder.titleText.setText(item.getDeviceName());
+        macAddress.setText(item.getAddress());
 
         if ( item.getDeviceName().toString() == "No Devices") {
-            connectDisconnect.setVisibility(View.INVISIBLE);
+            macAddress.setVisibility(View.INVISIBLE);
             line.setVisibility(View.INVISIBLE);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                     ((int) RelativeLayout.LayoutParams.WRAP_CONTENT, (int) RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.CENTER_VERTICAL);
             params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             holder.titleText.setLayoutParams(params);
-        }
-        else {
-            connectDisconnect.setChecked(item.getConnected());
-
-            connectDisconnect.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        //TODO Connect
-                    } else {
-                        //TODO Disconnect
-                    }
-
-                }
-            });
-
         }
 
         return viewToUse;
