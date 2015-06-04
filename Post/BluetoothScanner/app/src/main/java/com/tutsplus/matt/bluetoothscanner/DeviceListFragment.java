@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,8 +19,10 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -56,11 +59,13 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                Log.d("DEVICELIST", "Bluetooth device found\n");
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // Create a new device item
                 DeviceItem newDevice = new DeviceItem(device.getName(), device.getAddress(), "false");
                 // Add it to our adapter
                 mAdapter.add(newDevice);
+                mAdapter.notifyDataSetChanged();
             }
         }
     };
@@ -107,13 +112,14 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
         mAdapter = new DeviceListAdapter(getActivity(), deviceItemList, bTAdapter);
 
         Log.d("DEVICELIST", "Adapter created\n");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_deviceitem_list, container, false);
-        Button scan = (Button) view.findViewById(R.id.scan);
+        ToggleButton scan = (ToggleButton) view.findViewById(R.id.scan);
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
@@ -121,16 +127,15 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(scan.getText() ==  "Scan") {
+        scan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                if (isChecked) {
+                    getActivity().registerReceiver(bReciever, filter);
                     bTAdapter.startDiscovery();
-                    scan.setText(R.string.stopScan);
-                }
-                else {
+                } else {
+                    getActivity().unregisterReceiver(bReciever);
                     bTAdapter.cancelDiscovery();
-                    scan.setText(R.string.scan);
                 }
             }
         });
